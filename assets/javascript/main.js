@@ -4,7 +4,6 @@ var gameObject = {
     questions: {
         firstQuestion: {
             prompt: "Which of the following is NOT a white wine?",
-            answers: {
                 correct: "Pinot noir",
                 wrong: {
                     firstWrong: "Chardonnay",
@@ -15,58 +14,77 @@ var gameObject = {
         },  
         secondQuestion: {
             prompt: "Which spirit must have a grain mash of at least %51 corn?",
-            answers: {
                 correct: "Bourbon",
                 wrong: {
                     firstWrong: "Gin",
                     secondWrong: "Rye",
                     thirdWrong: "Rum"
-                }   
             }
         },  
         thirdQuestion: {
             prompt: "What iconic American city was the Sazerac invented in?",
-            answers: {
-                correct: "New Orleans",
-                wrong: {
-                    firstWrong: "New York",
-                    secondWrong: "Seattle",
-                    thirdWrong: "San Fransisco"
-                }
+            correct: "New Orleans",
+            wrong: {
+                firstWrong: "New York",
+                secondWrong: "Seattle",
+                thirdWrong: "San Fransisco"
             }
         },  
         fourthQuestion: { 
             prompt: "The smokey taste in Islay Scotches comes from which smoked grain?",
-            answers: {
-                correct: "Malted barley",
-                wrong: {
-                    firstWrong: "Rye",
-                    secondWrong: "Wheat",
-                    thirdWrong: "Oats"
-                }
+            correct: "Malted barley",
+            wrong: {
+                firstWrong: "Rye",
+                secondWrong: "Wheat",
+                thirdWrong: "Oats"
             }
         }  
     }
-}
+
 console.log(gameObject)
 console.log(gameObject.questions)
 console.log(gameObject.questions[0])
 console.log(gameObject.questions.firstQuestion.prompt)
-console.log(gameObject.questions.firstQuestion.answers.correct)
+console.log(gameObject.questions.firstQuestion.correct)
+console.log(gameObject.questions.firstQuestion.answers)
+console.log(gameObject.questions.firstQuestion.wrong)
+
+//Create variable to hold timer time
+var timeRemaining = 20;
 
 //Display a trivia game screen with a start button
-//On clicking the start button, display a question with four guess buttons
-
 $(document).ready(function() {
     $("button").on("click", function() {
-        $("button").hide();
-        var questionInput = gameObject.questions.firstQuestion.prompt;
-        $('#question').html(questionInput);
 
+        //Hide the start button after it is clicked
+        $("button").hide();
+        $("#timer").text(timeRemaining);
+        //Set the text of the timer element to the value of timeRemaining  
+        //set a timer to decrease the time remaining by one every second
+        setInterval(function(){
+            $("#timer").text(timeRemaining -= 1)}, 1000);
+
+        //Hold value of the question prompt in a variable 
+        //Input that into the question element 
+        var questionInput = gameObject.questions.firstQuestion.prompt;
+        $("#question").text(questionInput);
+        
+        //Create a variable which will hold all possible answer choices
+        var choices = gameObject.questions.firstQuestion.correct + ' ';
+        var x;
+        for(x in gameObject.questions.firstQuestion.wrong) {
+            choices += gameObject.questions.firstQuestion.wrong[x] + ' ';
+        }
+
+        //Set the text of the choices element to the variable holding all possible choices
+        $("#choices").text(choices);
+
+        console.log(choices)
+        console.log(timeRemaining);
     });
 
 
-        //set a timer to run starting at 20 seconds
+        
 
 //If the timer runs to zero seconds, switch to the out of time screen and then switch to the next question after four seconds
 
